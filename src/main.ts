@@ -1,6 +1,6 @@
-import './styles/main.scss'
-import { Scene } from './core/Scene'
 import { RobotArm } from './core/RobotArm'
+import { Scene } from './core/Scene'
+import './styles/main.scss'
 import { ControlPanel } from './ui/ControlPanel'
 import { log } from './ui/Log'
 
@@ -15,7 +15,7 @@ class RobotArmSimulation {
 
   private async initialize(): Promise<void> {
     try {
-      // 获取容器
+      // Get container
       const container = document.getElementById('app')
       if (!container) {
         throw new Error('找不到应用容器')
@@ -23,35 +23,35 @@ class RobotArmSimulation {
 
       log.info('系统初始化开始...')
 
-      // 创建场景
+      // Create scence
       this.scene = new Scene(container)
       log.success('3D场景创建完成')
 
-      // 创建机械臂
+      // Create robot arm
       this.robotArm = new RobotArm(this.scene.getScene())
       log.info('机械臂实例创建完成')
 
-      // 加载机械臂模型
+      // Loads robot arm model
       await this.robotArm.loadModel('arm.glb')
       setTimeout(() => {
         document.querySelector('.loader-container')?.classList.add('loaded')
       }, 500)
-      log.success('机械臂模型加载完成')
+      log.success('Robot arm model loaded')
 
-      // 创建控制面板
+      // Create control panel
       this.controlPanel = ControlPanel.getInstance()
       this.controlPanel.bindScene(this.scene)
       this.controlPanel.bindRobotArm(this.robotArm)
-      log.success('控制面板初始化完成')
+      log.success('ControlPanel initialized')
 
-      // 开始渲染循环
+      // Start render loop
       this.update()
-      console.log('机械臂仿真初始化完成')
-      log.success('机械臂仿真初始化完成')
+      console.log('Robot arm simulation initialized')
+      log.success('Robot arm simulation initialized')
     } catch (error) {
-      console.error('初始化失败:', error)
-      log.error(`初始化失败: ${error}`)
-      this.showError('初始化失败，请检查控制台获取详细信息')
+      console.error('Initialized failed:', error)
+      log.error(`Initialized failed: ${error}`)
+      this.showError('Initialized failed，check console for details')
     }
   }
 
@@ -80,5 +80,5 @@ class RobotArmSimulation {
   }
 }
 
-// 启动应用
+// Start application
 new RobotArmSimulation()
